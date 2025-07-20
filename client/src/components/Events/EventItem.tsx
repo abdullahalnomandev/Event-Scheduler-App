@@ -1,3 +1,4 @@
+import { format, parse } from "date-fns";
 import React from "react";
 import { FaTrashAlt } from "react-icons/fa"; // Import toggle icons
 import type { Event } from "../types";
@@ -27,15 +28,15 @@ const EventItem: React.FC<EventItemProps> = ({
       </div>
 
       {/* Date Column */}
+      {/* Date Column */}
       <div className="col-span-1 text-gray-300 text-sm truncate z-20">
-        {event.date}
+        {format(new Date(event.date), "dd MMMM yyyy")}
       </div>
 
       {/* Time Column */}
       <div className="col-span-1 text-gray-300 text-sm truncate z-20">
-        {event.time}
+        {format(parse(event.time, "HH:mm", new Date()), "hh:mm a")}
       </div>
-
       {/* Notes Column */}
       <div className="col-span-2 text-gray-400 text-sm truncate z-20">
         {event.notes || "---"}

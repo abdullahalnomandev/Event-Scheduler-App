@@ -1,4 +1,8 @@
+import { format } from "date-fns";
 import React, { useState } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { FaRegCalendarAlt, FaRegClock, FaStickyNote } from "react-icons/fa";
 import type { Event } from "../types";
 
 interface EventFormProps {
@@ -8,137 +12,192 @@ interface EventFormProps {
 }
 
 const EventForm: React.FC<EventFormProps> = ({ onAddEvent }) => {
-  const [title, setTitle] = useState("");
-  const [date, setDate] = useState("");
-  const [time, setTime] = useState("");
-  const [notes, setNotes] = useState("");
+  // Change date and time from string to Date objects
+  const [formData, setFormData] = useState({
+    title: "",
+    date: null as Date | null,
+    time: null as Date | null,
+    notes: "",
+  });
   const [error, setError] = useState("");
 
-  const categorizeEvent = (
-    eventTitle: string
-  ): "Work" | "Personal" | "Other" => {
-    const lowerCaseTitle = eventTitle.toLowerCase();
-    if (
-      lowerCaseTitle.includes("meeting") ||
-      lowerCaseTitle.includes("project") ||
-      lowerCaseTitle.includes("client")
-    ) {
-      return "Work";
-    } else if (
-      lowerCaseTitle.includes("birthday") ||
-      lowerCaseTitle.includes("family") ||
-      lowerCaseTitle.includes("party")
-    ) {
+  const categorizeEvent = (text: string): "Work" | "Personal" | "Other" => {
+    const content = text.toLowerCase();
+    const workKeywords = ["meeting", "project", "client", "deadline"];
+    const personalKeywords = ["birthday", "family", "party", "anniversary"];
+
+    if (workKeywords.some((word) => content.includes(word))) return "Work";
+    if (personalKeywords.some((word) => content.includes(word)))
       return "Personal";
-    }
     return "Other";
+  };
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  // For DatePicker changes
+  const handleDateChange = (date: Date | null) => {
+    setFormData((prev) => ({ ...prev, date }));
+  };
+
+  const handleTimeChange = (time: Date | null) => {
+    setFormData((prev) => ({ ...prev, time }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
 
+    const { title, date, time, notes } = formData;
+
     if (!title || !date || !time) {
       setError("Title, Date, and Time are required.");
       return;
     }
 
-    const eventToSave = {
-      title,
-      date,
-      time,
-      notes,
-      category: categorizeEvent(title),
-    };
+    console.log({ formData });
 
-    onAddEvent(eventToSave);
-    setTitle("");
-    setDate("");
-    setTime("");
-    setNotes("");
+    // Convert Date objects to strings as needed (e.g., ISO strings or any format you want)
+    onAddEvent({
+      title,
+      date: format(date, "yyyy-MM-dd"),
+      time: format(time, "HH:mm"),
+      notes,
+      category: categorizeEvent(`${title} ${notes}`),
+    });
+
+    setFormData({
+      title: "",
+      date: null,
+      time: null,
+      notes: "",
+    });
   };
 
+  const inputBaseClass =
+    "w-full rounded-md bg-gray-700 border border-gray-600 p-3 pr-10 text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-shadow duration-300 ease-in-out dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200 text-base";
+
   return (
-    <div className="bg-gray-700 p-6 rounded-lg shadow-xl border border-gray-600 animate-fade-in text-gray-100 dark:bg-gray-700 dark:border-gray-600 sm:p-8">
-      <h2 className="text-2xl sm:text-3xl font-bold text-white mb-6 sm:mb-7 text-center">
-        Create New Event
-      </h2>
-      <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6">
+    <div className="bg-gray-800 rounded-lg shadow-lg border border-gray-700 p-8 max-w-lg mx-auto animate-fade-in">
+      
+      <form onSubmit={handleSubmit} className="space-y-7">
+        {/* Title */}
         <div>
           <label
             htmlFor="title"
-            className="block text-sm font-medium text-gray-300 mb-1"
+            className="block mb-2 text-lg font-semibold text-gray-300"
           >
             Event Title
           </label>
           <input
             type="text"
             id="title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="mt-1 block w-full rounded-md bg-gray-600 border border-gray-500 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-3 text-gray-100 placeholder-gray-400 transition duration-150 ease-in-out dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100 text-base"
-            placeholder="e.g., Team Sync Meeting, Sarah's Birthday"
+            name="title"
+            value={formData.title}
+            onChange={handleChange}
+            className={inputBaseClass}
+            placeholder="e.g., Client Call, Birthday Dinner"
             required
+            autoComplete="off"
           />
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
-          <div>
+
+        {/* Date & Time */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          {/* Date Picker */}
+          <div className="relative">
             <label
               htmlFor="date"
-              className="block text-sm font-medium text-gray-300 mb-1"
+              className="block mb-2 text-sm font-medium text-gray-700"
             >
-              Date
+              Date <span className="text-red-500">*</span>
             </label>
-            <input
-              type="date"
-              id="date"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-              className="mt-1 block w-full rounded-md bg-gray-600 border border-gray-500 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-3 text-gray-100 transition duration-150 ease-in-out dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100 text-base"
-              required
-            />
+            <div className="relative flex items-center justify-center">
+              <FaRegCalendarAlt
+                className="absolute top-3.5 left-3 text-gray-400"
+                size={16}
+              />
+              <DatePicker
+                id="date"
+                selected={formData.date}
+                onChange={handleDateChange}
+                dateFormat="yyyy-MM-dd"
+                placeholderText="Select date"
+                required
+                filterDate={(date) => date >= new Date()}
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm"
+              />
+            </div>
           </div>
-          <div>
+
+          {/* Time Picker */}
+          <div className="relative">
             <label
               htmlFor="time"
-              className="block text-sm font-medium text-gray-300 mb-1"
+              className="block mb-2 text-sm font-medium text-gray-700"
             >
-              Time
+              Time <span className="text-red-500">*</span>
             </label>
-            <input
-              type="time"
-              id="time"
-              value={time}
-              onChange={(e) => setTime(e.target.value)}
-              className="mt-1 block w-full rounded-md bg-gray-600 border border-gray-500 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-3 text-gray-100 transition duration-150 ease-in-out dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100 text-base"
-              required
-            />
+            <div className="relative flex items-center justify-center">
+              <FaRegClock
+                className="absolute top-3.5 left-3 text-gray-400"
+                size={16}
+              />
+              <DatePicker
+                id="time"
+                selected={formData.time}
+                onChange={handleTimeChange}
+                showTimeSelect
+                showTimeSelectOnly
+                timeIntervals={15}
+                timeCaption="Time"
+                dateFormat="hh:mm aa"
+                placeholderText="Select time"
+                required
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm"
+              />
+            </div>
           </div>
         </div>
-        <div>
+
+        {/* Notes */}
+        <div className="relative">
           <label
             htmlFor="notes"
-            className="block text-sm font-medium text-gray-300 mb-1"
+            className="block mb-2 text-lg font-semibold text-gray-300"
           >
             Notes (Optional)
           </label>
+          <FaStickyNote
+            className="absolute top-14 left-3 text-gray-400 pointer-events-none"
+            size={18}
+          />
           <textarea
             id="notes"
-            value={notes}
-            onChange={(e) => setNotes(e.target.value)}
+            name="notes"
+            value={formData.notes}
+            onChange={handleChange}
             rows={4}
-            className="mt-1 block w-full rounded-md bg-gray-600 border border-gray-500 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-3 text-gray-100 placeholder-gray-400 transition duration-150 ease-in-out dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100 text-base"
+            className={`${inputBaseClass} pl-10 resize-none`}
             placeholder="Add any additional details or reminders here..."
-          ></textarea>
+          />
         </div>
+
+        {/* Error Message */}
         {error && (
-          <p className="text-red-400 text-sm mt-3 font-medium" role="alert">
+          <p className="text-red-500 text-sm mt-1 font-semibold" role="alert">
             {error}
           </p>
         )}
+
+        {/* Submit Button */}
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white p-3 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150 text-lg font-semibold tracking-wide transform hover:scale-100 dark:bg-blue-800 dark:hover:bg-blue-700 dark:focus:ring-blue-700 sm:p-4"
+          className="w-full mt-4 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-offset-2 text-white font-bold py-3 rounded-md transition transform hover:scale-105 duration-200"
         >
           Add Event
         </button>

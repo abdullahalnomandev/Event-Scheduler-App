@@ -30,7 +30,7 @@ The AI considers both the event title and notes (if any) to determine the catego
 
 ### Backend (`/server`)
 
-- Built with Node.js, Express, and MongoDB (Mongoose)
+- Built with Node.js, Express, and ZOD
 - All routes under `/api/events`
 
 ### Frontend (`/client`)
