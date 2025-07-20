@@ -39,8 +39,9 @@ const EventSchema = new Schema<IEvent>(
     archived: { type: Boolean, default: false },
     category: {
       type: String,
-      enum: ['Work', 'Personal', 'Other'],
+      enum: ['work', 'personal', 'other'], // all lowercase!
       required: [true, 'Category is required'],
+      lowercase: true,
     },
   },
   {
