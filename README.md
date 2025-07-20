@@ -4,7 +4,7 @@ A full-stack **Event Scheduler** application that allows users to add, filter, a
 
 ---
 
-## ✨ Features
+## Features
 
 - Add and manage events
 - Filter events by category
@@ -14,7 +14,7 @@ A full-stack **Event Scheduler** application that allows users to add, filter, a
 
 ---
 
-## 🧠 AI Categorization Logic
+## AI Categorization Logic
 
 The application uses simple keyword-based logic to categorize events into three types:
 
@@ -41,14 +41,20 @@ The AI considers both the event title and notes (if any) to determine the catego
 
 ---
 
-## 🚀 Local Setup Instructions
+## Local Setup Instructions
 
 ### Prerequisites
 
 - Node.js (v18 or higher)
-- MongoDB running locally or via a cloud provider (e.g. MongoDB Atlas)
 
 ---
+
+## API Endpoints
+
+- **POST /events**: Create a new event (title, date, time, notes, archived status, category).
+- **GET /events**: Retrieve all events, sorted by date and time.
+- **PUT /events/:id**: Update an event’s archived status to true.
+- **DELETE /events/:id**: Delete an event.
 
 ### 1. Clone the Repository
 
