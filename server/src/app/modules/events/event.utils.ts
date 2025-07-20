@@ -1,7 +1,7 @@
 export const categorizeEvent = (
   title: string,
   notes?: string
-): 'Work' | 'Personal' | 'Other' => {
+): 'work' | 'personal' | 'other' => {
   const text = (title + ' ' + (notes || '')).toLowerCase();
 
   const workKeywords = ['meeting', 'project', 'client', 'work', 'deadline'];
@@ -14,10 +14,10 @@ export const categorizeEvent = (
   ];
 
   if (workKeywords.some(keyword => text.includes(keyword))) {
-    return 'Work';
+    return 'work';
   } else if (personalKeywords.some(keyword => text.includes(keyword))) {
-    return 'Personal';
+    return 'personal';
   } else {
-    return 'Other';
+    return 'other';
   }
 };

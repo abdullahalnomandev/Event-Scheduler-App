@@ -1,5 +1,4 @@
 import { Server } from 'http';
-import mongoose from 'mongoose';
 import app from './app';
 import config from './config';
 
@@ -11,10 +10,9 @@ process.on('uncaughtException', error => {
 let server: Server;
 
 const bootstrap = async () => {
-  const { database_url, port } = config;
+  const { port } = config;
 
   try {
-    await mongoose.connect(database_url as string);
     console.log('🛢️  Database connection successful');
 
     server = app.listen(port, () => {

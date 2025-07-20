@@ -5,5 +5,5 @@ export type IEvent = {
   time: string; // HH:MM
   notes?: string;
   archived: boolean;
-  category: 'Work' | 'Personal' | 'Other';
+  category: 'work' | 'personal' | 'other';
 };
