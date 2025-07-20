@@ -1,32 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import type { Event } from "../types";
 
 interface EventFormProps {
-  onAddEvent: (event: Event) => void;
-  editingEvent: Event | null; // New prop for editing
+  onAddEvent: (
+    newEventData: Omit<Event, "id" | "isArchived" | "category">
+  ) => void;
 }
 
-const EventForm: React.FC<EventFormProps> = ({ onAddEvent, editingEvent }) => {
+const EventForm: React.FC<EventFormProps> = ({ onAddEvent }) => {
   const [title, setTitle] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [notes, setNotes] = useState("");
   const [error, setError] = useState("");
-
-  useEffect(() => {
-    if (editingEvent) {
-      setTitle(editingEvent.title);
-      setDate(editingEvent.date);
-      setTime(editingEvent.time);
-      setNotes(editingEvent.notes || "");
-    } else {
-      // Clear form when not editing
-      setTitle("");
-      setDate("");
-      setTime("");
-      setNotes("");
-    }
-  }, [editingEvent]);
 
   const categorizeEvent = (
     eventTitle: string
@@ -57,33 +43,25 @@ const EventForm: React.FC<EventFormProps> = ({ onAddEvent, editingEvent }) => {
       return;
     }
 
-    const eventToSave: Event = editingEvent
-      ? {
-          ...editingEvent,
-          title,
-          date,
-          time,
-          notes,
-          category: categorizeEvent(title),
-        }
-      : {
-          id: Date.now().toString(),
-          title,
-          date,
-          time,
-          notes,
-          category: categorizeEvent(title),
-          isArchived: false,
-        };
+    const eventToSave = {
+      title,
+      date,
+      time,
+      notes,
+      category: categorizeEvent(title),
+    };
 
     onAddEvent(eventToSave);
-    // Form cleared by useEffect when editingEvent is set to null in parent
+    setTitle("");
+    setDate("");
+    setTime("");
+    setNotes("");
   };
 
   return (
     <div className="bg-gray-700 p-6 rounded-lg shadow-xl border border-gray-600 animate-fade-in text-gray-100 dark:bg-gray-700 dark:border-gray-600 sm:p-8">
       <h2 className="text-2xl sm:text-3xl font-bold text-white mb-6 sm:mb-7 text-center">
-        {editingEvent ? "Edit Event" : "Create New Event"}
+        Create New Event
       </h2>
       <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6">
         <div>
@@ -162,7 +140,7 @@ const EventForm: React.FC<EventFormProps> = ({ onAddEvent, editingEvent }) => {
           type="submit"
           className="w-full bg-blue-600 text-white p-3 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150 text-lg font-semibold tracking-wide transform hover:scale-100 dark:bg-blue-800 dark:hover:bg-blue-700 dark:focus:ring-blue-700 sm:p-4"
         >
-          {editingEvent ? "Update Event" : "Add Event"}
+          Add Event
         </button>
       </form>
     </div>

@@ -23,7 +23,7 @@ const createEventZodSchema = z.object({
 
     notes: z.string().optional(),
 
-    archived: z.boolean({ required_error: 'Archived status is required' }),
+    archived: z.boolean().default(false),
   }),
 });
 

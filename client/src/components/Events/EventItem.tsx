@@ -1,19 +1,17 @@
 import React from "react";
-import { FaEdit, FaTrashAlt } from "react-icons/fa"; // Import toggle icons
+import { FaTrashAlt } from "react-icons/fa"; // Import toggle icons
 import type { Event } from "../types";
 
 interface EventItemProps {
   event: Event;
   onDeleteEvent: (id: string) => void;
   onToggleArchive: (id: string) => void; // Re-add onToggleArchive prop
-  onEditEvent: (event: Event) => void;
 }
 
 const EventItem: React.FC<EventItemProps> = ({
   event,
   onDeleteEvent,
   onToggleArchive, // Destructure onToggleArchive
-  onEditEvent,
 }) => {
   const categoryColors = {
     Work: "text-blue-400",
@@ -56,7 +54,7 @@ const EventItem: React.FC<EventItemProps> = ({
           onClick={() => onToggleArchive(event.id)} // Use onToggleArchive
           className={`px-3 py-1 rounded-full text-xs font-semibold
             ${
-              event.isArchived
+              event.archived
                 ? "bg-yellow-700 text-yellow-100"
                 : "bg-green-700 text-green-100"
             }
@@ -69,14 +67,6 @@ const EventItem: React.FC<EventItemProps> = ({
 
       {/* Actions Column */}
       <div className="col-span-1 flex items-center justify-end space-x-3 z-20">
-        <button
-          onClick={() => onEditEvent(event)}
-          className="text-blue-400 hover:text-blue-300 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-700 rounded-md p-1"
-          aria-label="Edit event"
-        >
-          <FaEdit className="h-5 w-5" />
-        </button>
-
         <button
           onClick={() => onDeleteEvent(event.id)}
           className="text-red-400 hover:text-red-300 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-gray-700 rounded-md p-1"

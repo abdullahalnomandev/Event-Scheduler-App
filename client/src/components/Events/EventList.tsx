@@ -6,14 +6,12 @@ interface EventListProps {
   events: Event[];
   onDeleteEvent: (id: string) => void;
   onToggleArchive: (id: string) => void;
-  onEditEvent: (event: Event) => void;
 }
 
 const EventList: React.FC<EventListProps> = ({
   events,
   onDeleteEvent,
   onToggleArchive,
-  onEditEvent,
 }) => {
   if (events.length === 0) {
     return (
@@ -60,7 +58,6 @@ const EventList: React.FC<EventListProps> = ({
               event={event}
               onDeleteEvent={onDeleteEvent}
               onToggleArchive={onToggleArchive}
-              onEditEvent={onEditEvent}
             />
           ))}
         </div>

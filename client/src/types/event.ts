@@ -5,5 +5,5 @@ export type Event = {
   time: string;
   notes?: string;
   category: "Work" | "Personal" | "Other";
-  isArchived: boolean;
+  archived: boolean;
 };
