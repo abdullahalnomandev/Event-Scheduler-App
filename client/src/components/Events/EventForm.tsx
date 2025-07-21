@@ -2,7 +2,7 @@ import { format } from "date-fns";
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { FaRegCalendarAlt, FaRegClock, FaStickyNote } from "react-icons/fa";
+import { FaRegCalendarAlt, FaRegClock } from "react-icons/fa";
 import type { Event } from "../types";
 
 interface EventFormProps {
@@ -79,17 +79,16 @@ const EventForm: React.FC<EventFormProps> = ({ onAddEvent }) => {
   };
 
   const inputBaseClass =
-    "w-full rounded-md bg-gray-700 border border-gray-600 p-3 pr-10 text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-shadow duration-300 ease-in-out dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200 text-base";
+    "w-full rounded-md bg-gray-700 border dark:border-gray-600 p-3 pr-10 text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:border-blue-500 transition-shadow duration-300 ease-in-out dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200 text-base";
 
   return (
-    <div className="bg-gray-800 rounded-lg shadow-lg border border-gray-700 p-8 max-w-lg mx-auto animate-fade-in">
-      
+    <div className=" dark:bg-gray-900 rounded-lg shadow-lg border border-gray-700 dark:border-gray-600 p-5 max-w-lg mx-auto animate-fade-in">
       <form onSubmit={handleSubmit} className="space-y-7">
         {/* Title */}
         <div>
           <label
             htmlFor="title"
-            className="block mb-2 text-lg font-semibold text-gray-300"
+            className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300"
           >
             Event Title
           </label>
@@ -99,7 +98,7 @@ const EventForm: React.FC<EventFormProps> = ({ onAddEvent }) => {
             name="title"
             value={formData.title}
             onChange={handleChange}
-            className={inputBaseClass}
+            className={`${inputBaseClass} bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100`}
             placeholder="e.g., Client Call, Birthday Dinner"
             required
             autoComplete="off"
@@ -112,7 +111,7 @@ const EventForm: React.FC<EventFormProps> = ({ onAddEvent }) => {
           <div className="relative">
             <label
               htmlFor="date"
-              className="block mb-2 text-sm font-medium text-gray-700"
+              className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300"
             >
               Date <span className="text-red-500">*</span>
             </label>
@@ -129,7 +128,7 @@ const EventForm: React.FC<EventFormProps> = ({ onAddEvent }) => {
                 placeholderText="Select date"
                 required
                 filterDate={(date) => date >= new Date()}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm"
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:text-gray-100 text-gray-800 shadow-sm"
               />
             </div>
           </div>
@@ -138,7 +137,7 @@ const EventForm: React.FC<EventFormProps> = ({ onAddEvent }) => {
           <div className="relative">
             <label
               htmlFor="time"
-              className="block mb-2 text-sm font-medium text-gray-700"
+              className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300"
             >
               Time <span className="text-red-500">*</span>
             </label>
@@ -158,7 +157,7 @@ const EventForm: React.FC<EventFormProps> = ({ onAddEvent }) => {
                 dateFormat="hh:mm aa"
                 placeholderText="Select time"
                 required
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm"
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:text-gray-50 text-gray-900 shadow-sm"
               />
             </div>
           </div>
@@ -168,21 +167,18 @@ const EventForm: React.FC<EventFormProps> = ({ onAddEvent }) => {
         <div className="relative">
           <label
             htmlFor="notes"
-            className="block mb-2 text-lg font-semibold text-gray-300"
+            className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300"
           >
             Notes (Optional)
           </label>
-          <FaStickyNote
-            className="absolute top-14 left-3 text-gray-400 pointer-events-none"
-            size={18}
-          />
+
           <textarea
             id="notes"
             name="notes"
             value={formData.notes}
             onChange={handleChange}
             rows={4}
-            className={`${inputBaseClass} pl-10 resize-none`}
+            className={`${inputBaseClass}  resize-none bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-gray-600`}
             placeholder="Add any additional details or reminders here..."
           />
         </div>
@@ -197,9 +193,9 @@ const EventForm: React.FC<EventFormProps> = ({ onAddEvent }) => {
         {/* Submit Button */}
         <button
           type="submit"
-          className="w-full mt-4 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-offset-2 text-white font-bold py-3 rounded-md transition transform hover:scale-105 duration-200"
+          className="w-full bg-blue-600 dark:bg-blue-800 hover:bg-blue-700 dark:hover:bg-blue-900 active:bg-blue-800 dark:active:bg-blue-900 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-offset-2 text-white font-bold py-3 rounded-md transition transform hover:scale-105 duration-200 cursor-pointer"
         >
-          Add Event
+          Save
         </button>
       </form>
     </div>

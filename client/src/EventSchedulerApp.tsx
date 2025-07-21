@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useLayoutEffect, useState } from "react";
 import EventControls from "./components/Events/EventControls";
 import EventForm from "./components/Events/EventForm";
@@ -88,10 +89,10 @@ const EventSchedulerApp: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-gray-100 font-sans flex flex-col">
+    <div className="min-h-screen bg-gray-200 dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans flex flex-col">
       <Header />
       <main className="flex-grow flex flex-col items-center py-8 px-4 sm:px-6 lg:px-8">
-        <div className="w-full max-w-7xl bg-gray-800 rounded-lg shadow-xl p-6 sm:p-8 lg:p-10">
+        <div className="w-full max-w-7xl bg-gray-100 dark:bg-gray-800 rounded-lg shadow-xl p-6 sm:p-8 lg:p-10">
           <EventControls
             filter={filter}
             onFilterChange={setFilter}
@@ -99,10 +100,11 @@ const EventSchedulerApp: React.FC = () => {
           />
 
           <div className="relative min-h-[300px]">
-            {" "}
             {/* Added a div to ensure stable height */}
             {loading && (
-              <p className="text-center text-gray-300">Loading events...</p>
+              <p className="text-center text-gray-500 dark:text-gray-300">
+                Loading events...
+              </p>
             )}
             {error && (
               <p className="text-center text-red-500">Error: {error}</p>

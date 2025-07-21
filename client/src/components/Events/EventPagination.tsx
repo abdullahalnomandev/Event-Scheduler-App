@@ -27,7 +27,7 @@ const EventPagination: React.FC<EventPaginationProps> = ({
           className={`px-3 py-2 rounded text-sm font-medium transition duration-200 ${
             currentPage === i
               ? "bg-blue-600 text-white"
-              : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+              : "bg-gray-200 text-gray-800 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
           }`}
         >
           {i}
@@ -38,17 +38,20 @@ const EventPagination: React.FC<EventPaginationProps> = ({
   };
 
   return (
-    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mt-6 border-t border-gray-700 pt-4">
+    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mt-6 border-t border-gray-100 dark:border-gray-600 pt-4">
       {/* Limit selector */}
       <div className="flex items-center justify-center gap-1 mb-4 pr-3">
-        <label htmlFor="limitSelect" className="text-sm text-gray-300">
+        <label
+          htmlFor="limitSelect"
+          className="text-sm text-gray-700 dark:text-gray-300"
+        >
           Events per page:
         </label>
         <select
           id="limitSelect"
           value={pagination.limit || 5}
           onChange={(e) => onLimitChange(Number(e.target.value))}
-          className="p-2 rounded bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="p-2 rounded bg-white text-gray-800 dark:bg-gray-700 dark:text-gray-100 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value={5}>5</option>
           <option value={10}>10</option>
@@ -61,15 +64,17 @@ const EventPagination: React.FC<EventPaginationProps> = ({
         <button
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 1}
-          className="px-4 py-2 rounded bg-gray-700 text-gray-300 hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-4 py-2 rounded bg-white text-gray-800 hover:bg-gray-100 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 border border-gray-300 dark:border-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Previous
         </button>
+
         {renderPageButtons()}
+
         <button
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
-          className="px-4 py-2 rounded bg-gray-700 text-gray-300 hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-4 py-2 rounded bg-white text-gray-800 hover:bg-gray-100 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 border border-gray-300 dark:border-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Next
         </button>

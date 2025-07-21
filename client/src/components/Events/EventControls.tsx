@@ -27,7 +27,7 @@ const EventControls: React.FC<Props> = ({
               e.target.value as "All" | "Work" | "Personal" | "Other"
             )
           }
-          className="block w-full border border-gray-600 rounded-lg shadow-sm p-3 pr-10 text-base focus:ring-blue-500 focus:border-blue-500 bg-gray-700 text-gray-100 transition duration-150 ease-in-out"
+          className="block w-full border border-gray-100 dark:border-gray-600 rounded-lg shadow-sm p-3 pr-10 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-gray-100 transition duration-150 ease-in-out"
         >
           <option value="All">All Categories</option>
           <option value="Work">Work</option>
