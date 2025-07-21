@@ -33,7 +33,7 @@ const EventSchedulerApp: React.FC = () => {
         ...pagination,
         sortBy: "date",
         sortOrder: "asc",
-      };
+      } as IPaginationOptions;
       const response = await EventApi.getAllEvents({
         filters,
         pagination: sortedPagination,
