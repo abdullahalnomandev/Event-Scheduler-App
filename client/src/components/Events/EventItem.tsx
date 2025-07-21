@@ -72,14 +72,14 @@ const EventItem: React.FC<EventItemProps> = ({
           onClick={() => onToggleArchive(event.id)}
           className={`px-3 py-1 rounded-full text-xs font-semibold
             ${
-              event.isArchived
+              event.archive
                 ? "bg-yellow-600 text-yellow-100"
                 : "bg-green-600 text-green-100"
             }
             transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-700 dark:focus:ring-offset-gray-800
           `}
         >
-          {event.isArchived ? "Archived" : "Archive"}
+          {event.archive ? "Archived" : "Archive"}
         </button>
       </div>
 
