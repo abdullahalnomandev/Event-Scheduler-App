@@ -1,7 +1,9 @@
 import type { Event } from "../types";
 import type { IGenericResponse, IPaginationOptions } from "../types/common";
 
-const API_BASE_URL = "http://localhost:5000/api/v1/events";
+const API_BASE_URL =
+  import.meta.env.API_BASE_URL ||
+  "https://event-scheduler-app-cmaf.vercel.app/api/v1/events";
 
 interface EventFilters {
   category?: "Work" | "Personal" | "Other";

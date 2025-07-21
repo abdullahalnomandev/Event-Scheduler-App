@@ -13,7 +13,7 @@ const createEvent = catchAsync(async (req: Request, res: Response) => {
   const result = await EventService.createEvent(eventData);
   sendResponse<IEvent>(res, {
     statusCode: httpStatus.OK,
-    success: true,
+    status: 'success',
     message: 'Event created successfully!',
     data: result,
   });
@@ -25,7 +25,7 @@ const getAllEvents = catchAsync(async (req: Request, res: Response) => {
   const result = await EventService.getAllEvents(filters, patinationOptions);
   sendResponse<IEvent[]>(res, {
     statusCode: httpStatus.OK,
-    success: true,
+    status: 'success',
     message: 'Events retrieved successfully!',
     meta: result.meta,
     data: result?.data,
@@ -41,7 +41,7 @@ const updateEventArchivedStatus = catchAsync(
 
     sendResponse<IEvent>(res, {
       statusCode: httpStatus.OK,
-      success: true,
+      status: 'success',
       message: 'Event archived status updated successfully!',
       data: result,
     });
@@ -55,7 +55,7 @@ const deleteEvent = catchAsync(async (req: Request, res: Response) => {
 
   sendResponse<typeof deletedEvent>(res, {
     statusCode: httpStatus.OK,
-    success: true,
+    status: 'success',
     message: 'Event deleted successfully!',
     data: deletedEvent,
   });
