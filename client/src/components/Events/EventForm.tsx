@@ -12,7 +12,8 @@ interface EventFormProps {
 }
 
 const EventForm: React.FC<EventFormProps> = ({ onAddEvent }) => {
-  // Change date and time from string to Date objects
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const [formData, setFormData] = useState({
     title: "",
     date: null as Date | null,
@@ -48,7 +49,9 @@ const EventForm: React.FC<EventFormProps> = ({ onAddEvent }) => {
     setFormData((prev) => ({ ...prev, time }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    setIsSubmitting(true);
+
     e.preventDefault();
     setError("");
 
@@ -59,16 +62,16 @@ const EventForm: React.FC<EventFormProps> = ({ onAddEvent }) => {
       return;
     }
 
-    console.log({ formData });
-
-    // Convert Date objects to strings as needed (e.g., ISO strings or any format you want)
-    onAddEvent({
+    const result = await onAddEvent({
       title,
       date: format(date, "yyyy-MM-dd"),
       time: format(time, "HH:mm"),
       notes,
       category: categorizeEvent(`${title} ${notes}`),
     });
+    if (result) {
+      setIsSubmitting(false);
+    }
 
     setFormData({
       title: "",
@@ -190,12 +193,16 @@ const EventForm: React.FC<EventFormProps> = ({ onAddEvent }) => {
           </p>
         )}
 
-        {/* Submit Button */}
         <button
           type="submit"
-          className="w-full bg-blue-600 dark:bg-blue-800 hover:bg-blue-700 dark:hover:bg-blue-900 active:bg-blue-800 dark:active:bg-blue-900 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-offset-2 text-white font-bold py-3 rounded-md transition transform hover:scale-105 duration-200 cursor-pointer"
+          disabled={isSubmitting}
+          className={`w-full ${
+            isSubmitting
+              ? "bg-blue-400 cursor-not-allowed"
+              : "bg-blue-600 hover:bg-blue-700 active:bg-blue-800 dark:bg-blue-800 dark:hover:bg-blue-900 dark:active:bg-blue-900"
+          } focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-offset-2 text-white font-bold py-3 rounded-md transition transform hover:scale-105 duration-200`}
         >
-          Save
+          {isSubmitting ? "Saving..." : "Save"}
         </button>
       </form>
     </div>

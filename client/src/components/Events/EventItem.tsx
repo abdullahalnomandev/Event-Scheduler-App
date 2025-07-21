@@ -72,7 +72,7 @@ const EventItem: React.FC<EventItemProps> = ({
           onClick={() => onToggleArchive(event.id)}
           className={`px-3 py-1 rounded-full text-xs font-semibold
             ${
-              event.archive
+              event.archived
                 ? "bg-yellow-600 text-yellow-100"
                 : "bg-green-600 text-green-100"
             }
