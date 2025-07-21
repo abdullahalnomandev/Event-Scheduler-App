@@ -1,6 +1,24 @@
 # 📅 Event Scheduler App
 
-A full-stack **Event Scheduler** application that allows users to add, filter, and categorize events as **Work**, **Personal**, or **Other**. Events are automatically categorized using a basic AI categorization feature based on keywords.
+![Event Scheduler App Screenshot](https://res.cloudinary.com/dzghsspe7/image/upload/v1753061424/Screenshot_33_mpdnhj.jpg)
+
+## Overview
+
+A full-stack **Event Scheduler** application that enables users to:
+
+- **Add** events
+- **Filter** events by category
+- **Categorize** events as **Work**, **Personal**, or **Other**
+
+## AI Categorization
+
+Events are automatically categorized using a basic AI feature that relies on keyword recognition.
+
+### Keywords Used for Categorization
+
+- **Work**: Includes keywords like `work`, `project`, `client`, `meeting`, etc.
+- **Personal**: Includes keywords like `birthday`, `family`, `holiday`, `anniversary`, etc.
+- **Other**: Any event that does not match the above keywords.
 
 ---
 

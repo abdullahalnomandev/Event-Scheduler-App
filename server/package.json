@@ -4,8 +4,8 @@
   "description": "This is shadi mumbarak app . This app used for online marriage ",
   "main": "src/server.ts",
   "scripts": {
-    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
-    "start": "node ./dist/server.js",
+    "dev": "node api.js && ts-node-dev --respawn --transpile-only src/server.ts",
+    "start": "node api.js && node ./dist/server.js",
     "test": "jest --config jest.config.ts",
     "build": "tsc",
     "lint:check": "eslint --ext .js,.ts .",
